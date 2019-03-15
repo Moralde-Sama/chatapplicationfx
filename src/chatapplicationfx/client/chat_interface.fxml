@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="536.0" prefWidth="878.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapplicationfx.controller.Chat_interfaceController">
+   <center>
+      <AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="772.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
+         <children>
+            <JFXSpinner layoutX="164.0" layoutY="243.0" />
+         </children>
+      </AnchorPane>
+   </center>
+   <left>
+      <AnchorPane prefHeight="536.0" prefWidth="273.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="96.0" prefHeight="425.0" prefWidth="278.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" />
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="536.0" prefWidth="278.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

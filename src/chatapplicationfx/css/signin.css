@@ -1,0 +1,18 @@
+/*
+ * Empty Stylesheet file.
+ */
+.mainFxmlClass {
+/*    #19132E*/
+    -fx-background-color: #303446;
+    -fx-background-radius: 15;
+}
+.textbox {
+    -fx-text-fill: #F1D058;
+    -fx-prompt-text-fill: #F1D058;
+    
+}
+.btn {
+    -fx-text-fill: white;
+    -fx-background-color: #664797;
+    
+}
