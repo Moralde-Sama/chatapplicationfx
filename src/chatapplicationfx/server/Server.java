@@ -68,10 +68,11 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
     }
 
     @Override
-    public boolean sendMessage(String message, int userId) throws RemoteException {
+    public boolean sendMessage(String message, int userId, String fullname) throws RemoteException {
         try {
+            System.out.println(message + " = " + userId + " = " + fullname);
             Client_Interface client = (Client_Interface) reg.lookup("" + userId);
-            client.sendMessage(message);
+            client.receiveMessage(message, fullname);
             return true;
         } catch (NotBoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,26 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="536.0" prefWidth="878.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapplicationfx.controller.Chat_interfaceController">
+<BorderPane prefHeight="575.0" prefWidth="852.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="772.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
+      <AnchorPane id="AnchorPane" prefHeight="527.0" prefWidth="735.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
          <children>
-            <JFXSpinner layoutX="164.0" layoutY="243.0" />
+            <JFXButton layoutX="501.0" layoutY="483.0" onMouseClicked="#sendMessage" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #664797;" text="Send" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXTextArea fx:id="txtmessage" focusColor="#664797" layoutX="22.0" layoutY="454.0" prefHeight="55.0" prefWidth="464.0" promptText="Type your Message here" style="-fx-prompt-text-fill: white; -fx-text-fill: white;" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextArea>
+            <JFXSpinner layoutX="265.0" layoutY="214.0" />
+            <VBox fx:id="vboxmessage" layoutX="12.0" layoutY="52.0" prefHeight="382.0" prefWidth="567.0" />
          </children>
       </AnchorPane>
    </center>
    <left>
-      <AnchorPane prefHeight="536.0" prefWidth="273.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="493.0" prefWidth="273.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="96.0" prefHeight="425.0" prefWidth="278.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" />
+            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="103.0" prefHeight="418.0" prefWidth="278.0" style="-jfx-rippler-fill: none;" stylesheets="@../css/chat_interface.css">
+               <styleClass>
+                  <String fx:value="list-cell" />
+                  <String fx:value="jfx-rippler" />
+               </styleClass></JFXListView>
+            <JFXButton buttonType="RAISED" layoutY="65.0" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" style="-fx-background-color: #f1d058;" text="Messages" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="138.0" layoutY="65.0" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" style="-fx-background-color: #664797;" text="Users" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXTextField focusColor="#664797" labelFloat="true" layoutX="12.0" layoutY="15.0" prefHeight="40.0" prefWidth="248.0" promptText="Search" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXTextField>
+            <JFXSpinner layoutX="113.0" layoutY="272.0" />
          </children>
       </AnchorPane>
    </left>
-   <right>
-      <AnchorPane prefHeight="536.0" prefWidth="278.0" BorderPane.alignment="CENTER" />
-   </right>
+   <top>
+      <AnchorPane prefHeight="45.0" prefWidth="852.0" BorderPane.alignment="CENTER" />
+   </top>
 </BorderPane>

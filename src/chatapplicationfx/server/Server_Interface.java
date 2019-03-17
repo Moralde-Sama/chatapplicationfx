@@ -19,6 +19,6 @@ public interface Server_Interface extends Remote {
     public String findUser(String search) throws RemoteException;
     public boolean signUp(UserDetails user) throws RemoteException;
     public UserDetails signIn(String username, String password) throws RemoteException;
-    public boolean sendMessage(String message, int userId) throws RemoteException;
+    public boolean sendMessage(String message, int userId, String fullname) throws RemoteException;
     
 }

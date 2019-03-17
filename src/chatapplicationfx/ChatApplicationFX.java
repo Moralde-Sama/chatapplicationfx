@@ -5,8 +5,11 @@
  */
 package chatapplicationfx;
 
+import chatapplicationfx.Models.UserDetails;
+import chatapplicationfx.controller.Chat_interfaceController;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,10 +18,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -32,24 +33,34 @@ public class ChatApplicationFX extends Application {
     public static Stage getStage;
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws MalformedURLException {
         getStage = primaryStage;
         primaryStage.initStyle(StageStyle.TRANSPARENT);
 //        primaryStage.resizableProperty().setValue(Boolean.TRUE);
+        URL loc = new File("src/chatapplicationfx/images/MESSAGINGLOGO.png").toURI().toURL();
+        primaryStage.getIcons().add(new Image(loc.toString()));
         
         BorderPane root = new BorderPane();
         try {
+            UserDetails us = new UserDetails();
+            us.userId = 1;
+            us.fname = "sdfs";
+            us.mname = "SDF";
+            us.lname = "SDF";
+            Chat_interfaceController client = new Chat_interfaceController(us);
             URL location = new File("src/chatapplicationfx/client/chat_interface.fxml").toURI().toURL();
-            root = FXMLLoader.load(location);
+            FXMLLoader loader = new FXMLLoader(location);
+            loader.setController(client);
+            root = loader.load();
         } catch (IOException ex) {
             Logger.getLogger(ChatApplicationFX.class.getName()).log(Level.SEVERE, null, ex);
         }
         
 //        Scene scene = new Scene(root, 451, 532);
-        Scene scene = new Scene(root, 878, 536);
+        Scene scene = new Scene(root, 852, 575);
         scene.setFill(Color.TRANSPARENT);
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Messaging");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
