@@ -17,9 +17,28 @@
     -fx-border-insets: 2;
     -fx-border-color: #664797;
 }
+
 .jfx-rippler {
-    -jfx-rippler-fill: #664797;
+    -jfx-rippler-fill: #e4e0e0;
 }
-.jfx-ripplernone {
-    -jfx-rippler-fill: red;
+
+.btnuser {
+     -jfx-button-type: FLAT;
+     -fx-background-color:  #664797;
+     -fx-text-fill: white;
+}
+.btnuser-selected {
+     -jfx-button-type: RAISED;
+     -fx-background-color:  #f1d058;
+     -fx-text-fill: white;
+}
+.btnmessage {
+     -jfx-button-type: FLAT;
+     -fx-background-color: #664797;
+     -fx-text-fill: white;
+}
+.btnmessage-selected {
+     -jfx-button-type: RAISED;
+     -fx-background-color: #f1d058;
+     -fx-text-fill: white;
 }

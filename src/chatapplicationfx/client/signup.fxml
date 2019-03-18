@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.image.Image?>
@@ -15,28 +14,27 @@
    <center>
       <AnchorPane id="AnchorPane" accessibleRole="IMAGE_VIEW" minHeight="465.0" minWidth="525.0" prefHeight="465.0" prefWidth="525.0" stylesheets="@../css/signin.css">
          <children>
-            <JFXTextField fx:id="txtfname" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="247.0" prefHeight="38.0" prefWidth="222.0" promptText="First Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextField fx:id="txtfname" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="315.0" prefHeight="38.0" prefWidth="222.0" promptText="First Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtmname" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="247.0" prefHeight="38.0" prefWidth="222.0" promptText="Middle Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextField fx:id="txtmname" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="315.0" prefHeight="38.0" prefWidth="222.0" promptText="Middle Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtlname" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="320.0" prefHeight="38.0" prefWidth="222.0" promptText="Last Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextField fx:id="txtlname" focusColor="#664797" labelFloat="true" layoutX="152.0" layoutY="391.0" prefHeight="38.0" prefWidth="222.0" promptText="Last Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
             </JFXTextField>
-            <JFXComboBox fx:id="cbxGender" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="320.0" prefHeight="38.0" prefWidth="222.0" promptText="Gender" style="-fx-font-size: 17;" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058" />
-            <JFXTextField fx:id="txtusername" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="387.0" prefHeight="38.0" prefWidth="222.0" promptText="Username" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextField fx:id="txtusername" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Username" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
             </JFXTextField>
-            <JFXPasswordField fx:id="txtpassword" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="387.0" prefHeight="38.0" prefWidth="222.0" promptText="Password" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXPasswordField fx:id="txtpassword" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Password" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
@@ -46,7 +44,7 @@
                   <Image url="@../images/MESSAGINGLOGO.png" />
                </image>
             </ImageView>
-            <StackPane fx:id="stockpane" layoutX="99.0" layoutY="196.0" prefHeight="133.0" prefWidth="328.0" style="-fx-background-color: transparent;" styleClass="stockpane" stylesheets="@../css/singup.css" />
+            <StackPane fx:id="stockpane" layoutX="99.0" layoutY="196.0" prefHeight="133.0" prefWidth="328.0" style="-fx-background-color: transparent;" styleClass="stockpane" stylesheets="@../css/singup.css" visible="false" />
          </children>
       </AnchorPane>
    </center>

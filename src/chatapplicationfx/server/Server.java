@@ -1,6 +1,7 @@
 package chatapplicationfx.server;
 
 
+import chatapplicationfx.Models.Friends;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.Client_Interface;
 import java.rmi.AccessException;
@@ -50,9 +51,8 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
     }
 
     @Override
-    public String findUser(String search) throws RemoteException {
-        
-        return "";
+    public ArrayList<UserDetails> findUser(String search) throws RemoteException {
+        return db.searchUser(search);
     }
 
     @Override
@@ -80,6 +80,11 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         };
         return false;
+    }
+
+    @Override
+    public ArrayList<Friends> getFriends(int userId) throws RemoteException {
+        return db.getFriends(userId);
     }
     
 }

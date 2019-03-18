@@ -42,22 +42,16 @@ public class ChatApplicationFX extends Application {
         
         BorderPane root = new BorderPane();
         try {
-            UserDetails us = new UserDetails();
-            us.userId = 1;
-            us.fname = "sdfs";
-            us.mname = "SDF";
-            us.lname = "SDF";
-            Chat_interfaceController client = new Chat_interfaceController(us);
-            URL location = new File("src/chatapplicationfx/client/chat_interface.fxml").toURI().toURL();
+            
+            URL location = new File("src/chatapplicationfx/client/signin.fxml").toURI().toURL();
             FXMLLoader loader = new FXMLLoader(location);
-            loader.setController(client);
             root = loader.load();
         } catch (IOException ex) {
             Logger.getLogger(ChatApplicationFX.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-//        Scene scene = new Scene(root, 451, 532);
-        Scene scene = new Scene(root, 852, 575);
+        Scene scene = new Scene(root, 451, 532);
+//        Scene scene = new Scene(root, 852, 575);
         scene.setFill(Color.TRANSPARENT);
         
         primaryStage.setTitle("Messaging");

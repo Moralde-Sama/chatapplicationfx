@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -27,11 +28,17 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
             <JFXButton fx:id="btnsignup" buttonType="RAISED" layoutX="156.0" layoutY="441.0" onMouseClicked="#signUp" prefHeight="38.0" prefWidth="143.0" ripplerFill="#fffefe" styleClass="btn" stylesheets="@../css/signin.css" text="Sign Up">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </JFXButton>
             <ImageView fitHeight="195.0" fitWidth="208.0" layoutX="131.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
                <image>

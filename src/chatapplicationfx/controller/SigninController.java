@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -28,9 +29,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class SigninController implements Initializable  {
 
@@ -51,17 +58,42 @@ public class SigninController implements Initializable  {
     private AnchorPane anchorsignin;
      @FXML
     private void signIn() {
-        try {
-            Server_Interface srver = (Server_Interface) reg.lookup("Server");
-            UserDetails user = srver.signIn(txtusername.getText(), txtpassword.getText());
-            if(user == null){
-                System.out.println("Null");
-            }
-        } catch (RemoteException ex) {
-            Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new Thread(() -> {
+            Platform.runLater(() -> {
+                try {
+                Server_Interface srver = (Server_Interface) reg.lookup("Server");
+                UserDetails user = srver.signIn(txtusername.getText(), txtpassword.getText());
+                if(user == null){
+                    System.out.println("Null");
+                }
+                else{
+                    getStage.getScene().getWindow().hide();
+                    Chat_interfaceController client = new Chat_interfaceController(user);
+                    URL location = new File("src/chatapplicationfx/client/chat_interface.fxml").toURI().toURL();
+                    FXMLLoader loader = new FXMLLoader(location);
+                    loader.setController(client);
+                    rootpane = loader.load();
+                    Scene scene = new Scene(rootpane, 852, 595);
+                    Stage stage = new Stage();
+                    scene.setFill(Color.TRANSPARENT);
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    URL loc = new File("src/chatapplicationfx/images/MESSAGINGLOGO.png").toURI().toURL();
+                    stage.getIcons().add(new Image(loc.toString()));
+                    stage.setTitle("messaging");
+                    stage.setScene(scene);
+                    stage.show();
+                }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NotBoundException ex) {
+                    Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        }).start();
     }
     @FXML
     private void signUp(){

@@ -1,6 +1,7 @@
 package chatapplicationfx.server;
 
 
+import chatapplicationfx.Models.Friends;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -15,10 +16,12 @@ import java.rmi.RemoteException;
  * @author Moralde-Sama
  */
 import chatapplicationfx.Models.UserDetails;
+import java.util.ArrayList;
 public interface Server_Interface extends Remote {
-    public String findUser(String search) throws RemoteException;
+    public ArrayList<UserDetails> findUser(String search) throws RemoteException;
     public boolean signUp(UserDetails user) throws RemoteException;
     public UserDetails signIn(String username, String password) throws RemoteException;
     public boolean sendMessage(String message, int userId, String fullname) throws RemoteException;
+    public ArrayList<Friends> getFriends(int userId) throws RemoteException;
     
 }

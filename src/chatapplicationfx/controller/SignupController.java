@@ -82,6 +82,7 @@ public class SignupController implements Initializable {
         actions.add(no);
         actions.add(yes);
         layout.setActions(actions);
+        stockpane.setVisible(true);
         JFXDialog dialog = new JFXDialog(stockpane, layout, JFXDialog.DialogTransition.CENTER);
         stockpane.setVisible(true);
         no.setOnAction(new EventHandler<ActionEvent>() {
