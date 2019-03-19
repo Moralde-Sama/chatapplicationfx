@@ -6,6 +6,7 @@
 package chatapplicationfx.server;
 
 import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -106,6 +107,39 @@ public class Database {
         }
         return list;
     }
+    
+    public void saveMessage(int senderId, int receiverId, String message){
+        String query = "insert into tbl_messages(receiverId, senderId, message) values ('"+ receiverId+"',"
+                + "'"+ senderId +"', '"+ message +"')";
+        try {
+            stmt = con.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public ArrayList<Messages> getMessages(int senderId, int receiverId){
+        ArrayList<Messages> list = new ArrayList<>();
+        String query = "SELECT m.senderId, m.message, CONCAT(u.fname, ' ', SUBSTRING(u.mname, 0, 1), '. ', u.lname) AS fullname FROM tbl_messages AS m \n" +
+                       "INNER JOIN tbl_users AS u ON u.userId = m.senderId WHERE m.senderId = "+senderId+" OR m.receiverId = "+receiverId+" "
+                     + "OR m.senderId= "+receiverId+" OR m.receiverId = "+senderId;
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Messages mess = new Messages();
+                mess.senderId = rs.getInt(1);
+                mess.message = rs.getString(2);
+                mess.fullname = rs.getString(3);
+                list.add(mess);
+            }
+           return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
     
             
 }

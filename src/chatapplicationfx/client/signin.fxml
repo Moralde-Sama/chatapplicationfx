@@ -32,7 +32,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="btnsignup" buttonType="RAISED" layoutX="156.0" layoutY="441.0" onMouseClicked="#signUp" prefHeight="38.0" prefWidth="143.0" ripplerFill="#fffefe" styleClass="btn" stylesheets="@../css/signin.css" text="Sign Up">
+            <JFXButton fx:id="btnsignup" buttonType="RAISED" layoutX="156.0" layoutY="441.0" onMouseClicked="#signUp" prefHeight="38.0" prefWidth="143.0" ripplerFill="#fffefe" styleClass="btn" stylesheets="@../css/signin.css" text="SIGN UP">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

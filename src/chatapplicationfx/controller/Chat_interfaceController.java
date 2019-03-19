@@ -6,6 +6,7 @@
 package chatapplicationfx.controller;
 
 import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.client_remote;
 import chatapplicationfx.server.Server_Interface;
@@ -17,8 +18,6 @@ import com.jfoenix.controls.JFXPopup.PopupVPosition;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +44,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -57,7 +61,10 @@ public class Chat_interfaceController implements Initializable {
     private UserDetails user;
     private Server_Interface server;
     private boolean is_btnusersActive = false;
+    private boolean is_chatopen = false;
     private ArrayList<Friends> friends;
+    private ArrayList<Messages> messages;
+    private Stage getChatStage;
 
     @FXML
     private JFXListView<Label> lvchats;
@@ -78,32 +85,20 @@ public class Chat_interfaceController implements Initializable {
     @FXML
     private JFXTextField txtsearch;
 
-    public Chat_interfaceController(UserDetails user) throws RemoteException {
+    public Chat_interfaceController(UserDetails user, Stage stage) throws RemoteException {
         super();
         this.user = user;
+        getChatStage = stage;
     }
     
     @FXML
     private void sendMessage(){
-            Label label2 = new Label(txtmessage.getText());
-            label2.setPrefWidth(559);
-            label2.setWrapText(true);
-            label2.setStyle("-fx-text-fill: white;");
-            label2.setFont(new Font("Arial", 15));
-            label2.setContentDisplay(ContentDisplay.RIGHT);
-            label2.setAlignment(Pos.CENTER_RIGHT);
-            try {
-                URL location = new File("src/chatapplicationfx/images/messenger.png").toURI().toURL();
-                Image image = new Image(location.toString(), 40, 40, false, false);
-                label2.setGraphic(new ImageView(image));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Label label2 = getLabel(txtmessage.getText(), ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
             vboxmessage.getChildren().add(label2);
                 
         try {
             String fullname = user.fname + " " + user.mname.substring(0, 1) + ". " + user.lname;
-            server.sendMessage(txtmessage.getText(), friends.get(lvchats.getSelectionModel().getSelectedIndex()).userId , fullname);
+            server.sendMessage(txtmessage.getText(), user.userId, friends.get(lvchats.getSelectionModel().getSelectedIndex()).userId , fullname);
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,11 +114,14 @@ public class Chat_interfaceController implements Initializable {
     private void viewusers(){
         changeButton(0);
         lvchats.getItems().clear();
+        txtsearch.setText("");
     }
     
     @FXML
     private void viewMessages(){
         changeButton(1);
+        getFriends();
+        txtsearch.setText("");
     }
     
     @FXML
@@ -145,7 +143,13 @@ public class Chat_interfaceController implements Initializable {
             popup.show(lvchats.getSelectionModel().getSelectedItem(), PopupVPosition.TOP, PopupHPosition.RIGHT);
         }
         else{
-            
+            lvchats.getSelectionModel().getSelectedItem().setStyle("-fx-text-fill: #f1d058;");
+            if(!is_chatopen){
+                spinnerchat.setVisible(true);
+                is_chatopen = true;
+                chatTransition();
+                getMessages();
+            }
         }
     }
     
@@ -166,21 +170,11 @@ public class Chat_interfaceController implements Initializable {
         }
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        vboxmessage.setSpacing(20);
-        lvchats.setCursor(Cursor.HAND);
-        
+    private void getFriends(){
         try {
-            client_remote remote = new client_remote(vboxmessage);
-            reg = LocateRegistry.getRegistry(6666);
-            server = (Server_Interface) reg.lookup("Server");
-            reg.rebind(user.userId+"", remote);
-        
-
             friends = server.getFriends(user.userId);
+            lvchats.getItems().clear();
             spinnerLeft.setVisible(false);
-            spinnerchat.setVisible(false);
             for(int i = 0; i < friends.size(); i++){
                 String fullname = friends.get(i).fname + " " + friends.get(i).mname.substring(0, 1) + ". " + friends.get(i).lname;
                 Label label = new Label(fullname);
@@ -200,7 +194,85 @@ public class Chat_interfaceController implements Initializable {
                 }
                 lvchats.getItems().add(label);
             }
+        } catch (RemoteException ex) {
+            Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void chatTransition(){
+        Timer animTimer = new Timer();
+            animTimer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (getChatStage.getWidth()<= 888) {
+                            getChatStage.setWidth(getChatStage.getWidth()+3);
+                            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+                            getChatStage.setX((primScreenBounds.getWidth() - getChatStage.getWidth()) / 2);
+//                            getChatStage.setHeight(getChatStage.getHeight()+6);
+                        } else {
+                            this.cancel();
+                        }
+                    }
+
+            }, 0, 3);
+    }
+    
+    private void getMessages(){
+        vboxmessage.getChildren().clear();
+        try {
+            messages = server.getMessages(user.userId, friends.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
+            if(messages.size() != 0){
+                for(int i =0; i < messages.size(); i++){
+                    Label label = null;
+                    if(messages.get(i).senderId == user.userId){
+                        label = getLabel(messages.get(0).message, ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
+                        label.setPrefWidth(559);
+                        System.out.println("Right");
+                    }
+                    else{
+                        label = getLabel(messages.get(0).fullname + "\n" + messages.get(0).message, 
+                                ContentDisplay.LEFT, Pos.CENTER_LEFT);
+                        System.out.println("Left");
+                    }
+                    vboxmessage.getChildren().add(label);
+                }
+                spinnerchat.setVisible(false);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    private Label getLabel(String labelmess, ContentDisplay cdisplay, Pos pos){
+        Label label = new Label(labelmess);
+        label.setWrapText(true);
+        label.setStyle("-fx-text-fill: white;");
+        label.setFont(new Font("Arial", 15));
+        label.setContentDisplay(cdisplay);
+        label.setAlignment(pos);
+        try {
+                URL location = new File("src/chatapplicationfx/images/messenger.png").toURI().toURL();
+                Image image = new Image(location.toString(), 40, 40, false, false);
+                label.setGraphic(new ImageView(image));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return label;
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        vboxmessage.setSpacing(20);
+        lvchats.setCursor(Cursor.HAND);
+        
+        try {
+            client_remote remote = new client_remote(vboxmessage);
+            reg = LocateRegistry.getRegistry(6666);
+            server = (Server_Interface) reg.lookup("Server");
+            reg.rebind(user.userId+"", remote);
             
+            getFriends();
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
@@ -212,6 +284,7 @@ public class Chat_interfaceController implements Initializable {
                 try {
                     if(is_btnusersActive){
                         ArrayList<UserDetails> users = server.findUser(txtsearch.getText());
+                        lvchats.getItems().clear();
                         for(int i = 0; i < users.size(); i++) {
                             String fullname = users.get(i).fname + " " + users.get(i).mname.substring(0,1) + ". " + users.get(i).lname;
                             Label label = new Label(fullname);

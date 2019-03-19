@@ -2,6 +2,7 @@ package chatapplicationfx.server;
 
 
 import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.Client_Interface;
 import java.rmi.AccessException;
@@ -68,10 +69,10 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
     }
 
     @Override
-    public boolean sendMessage(String message, int userId, String fullname) throws RemoteException {
+    public boolean sendMessage(String message, int senderId, int receiverId, String fullname) throws RemoteException {
         try {
-            System.out.println(message + " = " + userId + " = " + fullname);
-            Client_Interface client = (Client_Interface) reg.lookup("" + userId);
+            db.saveMessage(senderId, receiverId, message);
+            Client_Interface client = (Client_Interface) reg.lookup("" + receiverId);
             client.receiveMessage(message, fullname);
             return true;
         } catch (NotBoundException ex) {
@@ -85,6 +86,11 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
     @Override
     public ArrayList<Friends> getFriends(int userId) throws RemoteException {
         return db.getFriends(userId);
+    }
+
+    @Override
+    public ArrayList<Messages> getMessages(int senderId, int receiverId) throws RemoteException {
+        return db.getMessages(senderId, receiverId);
     }
     
 }

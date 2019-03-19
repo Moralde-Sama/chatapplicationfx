@@ -8,6 +8,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="595.0" prefWidth="852.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="300.0" prefWidth="3.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <AnchorPane id="AnchorPane" prefHeight="527.0" prefWidth="576.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
+      <AnchorPane id="AnchorPane" prefHeight="527.0" prefWidth="566.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
          <children>
-            <JFXButton layoutX="501.0" layoutY="483.0" onMouseClicked="#sendMessage" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #664797;" text="Send" textFill="WHITE">
+            <JFXButton layoutX="486.0" layoutY="469.0" onMouseClicked="#sendMessage" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #664797;" text="Send" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -27,7 +28,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXTextArea fx:id="txtmessage" focusColor="#664797" layoutX="22.0" layoutY="454.0" prefHeight="55.0" prefWidth="464.0" promptText="Type your Message here" style="-fx-prompt-text-fill: white; -fx-text-fill: white;" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextArea fx:id="txtmessage" focusColor="#664797" layoutX="11.0" layoutY="444.0" prefHeight="55.0" prefWidth="464.0" promptText="Type your Message here" style="-fx-prompt-text-fill: white; -fx-text-fill: white;" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="15.0" />
                </font>
@@ -35,17 +36,20 @@
             <JFXSpinner fx:id="spinnerchat" layoutX="265.0" layoutY="214.0" />
             <VBox fx:id="vboxmessage" layoutX="12.0" layoutY="52.0" prefHeight="382.0" prefWidth="546.0" />
          </children>
+         <effect>
+            <DropShadow color="#322f2f" />
+         </effect>
       </AnchorPane>
    </center>
    <left>
-      <AnchorPane prefHeight="493.0" prefWidth="273.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="521.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="115.0" onMouseClicked="#clicklvchats" prefHeight="406.0" prefWidth="284.0" style="-jfx-rippler-fill: none;" stylesheets="@../css/chat_interface.css">
+            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="115.0" onMouseClicked="#clicklvchats" prefHeight="406.0" prefWidth="298.0" style="-jfx-rippler-fill: none;" stylesheets="@../css/chat_interface.css">
                <styleClass>
                   <String fx:value="list-cell" />
                   <String fx:value="jfx-rippler" />
                </styleClass></JFXListView>
-            <JFXButton fx:id="btnmessage" buttonType="RAISED" layoutY="75.0" onMouseClicked="#viewMessages" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" styleClass="btnmessage-selected" stylesheets="@../css/chat_interface.css" text="Friends" textFill="WHITE">
+            <JFXButton fx:id="btnmessage" buttonType="RAISED" layoutX="12.0" layoutY="75.0" onMouseClicked="#viewMessages" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" styleClass="btnmessage-selected" stylesheets="@../css/chat_interface.css" text="Friends" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -53,13 +57,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXTextField fx:id="txtsearch" focusColor="#664797" labelFloat="true" layoutX="12.0" layoutY="28.0" prefHeight="40.0" prefWidth="248.0" promptText="Search" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+            <JFXTextField fx:id="txtsearch" focusColor="#664797" labelFloat="true" layoutX="15.0" layoutY="28.0" prefHeight="40.0" prefWidth="262.0" promptText="Search" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
                </font>
             </JFXTextField>
             <JFXSpinner fx:id="spinnerLeft" layoutX="113.0" layoutY="272.0" />
-            <JFXButton fx:id="btnusers" layoutX="137.0" layoutY="75.0" onMouseClicked="#viewusers" prefHeight="39.0" prefWidth="134.0" ripplerFill="#e4e0e0" styleClass="btnuser" stylesheets="@../css/chat_interface.css" text="Users" textFill="WHITE">
+            <JFXButton fx:id="btnusers" layoutX="149.0" layoutY="75.0" onMouseClicked="#viewusers" prefHeight="39.0" prefWidth="134.0" ripplerFill="#e4e0e0" styleClass="btnuser" stylesheets="@../css/chat_interface.css" text="Users" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -78,7 +82,7 @@
                   <Image url="@../images/MESSAGINGLOGO.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="btnexit" layoutX="788.0" layoutY="15.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE">
+            <JFXButton fx:id="btnexit" layoutX="807.0" layoutY="15.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE">
                <font>
                   <Font name="Bodoni Bd BT Bold" size="15.0" />
                </font>

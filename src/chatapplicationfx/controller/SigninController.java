@@ -68,13 +68,14 @@ public class SigninController implements Initializable  {
                 }
                 else{
                     getStage.getScene().getWindow().hide();
-                    Chat_interfaceController client = new Chat_interfaceController(user);
+                    Stage stage = new Stage();
+                    Chat_interfaceController client = new Chat_interfaceController(user, stage);
                     URL location = new File("src/chatapplicationfx/client/chat_interface.fxml").toURI().toURL();
                     FXMLLoader loader = new FXMLLoader(location);
                     loader.setController(client);
                     rootpane = loader.load();
-                    Scene scene = new Scene(rootpane, 852, 595);
-                    Stage stage = new Stage();
+//                    Scene scene = new Scene(rootpane, 852, 595);
+                    Scene scene = new Scene(rootpane, 295, 595);
                     scene.setFill(Color.TRANSPARENT);
                     stage.initStyle(StageStyle.TRANSPARENT);
                     URL loc = new File("src/chatapplicationfx/images/MESSAGINGLOGO.png").toURI().toURL();
@@ -106,6 +107,9 @@ public class SigninController implements Initializable  {
                         if (getStage.getHeight() <= 640) {
                             getStage.setWidth(getStage.getWidth()+4);
                             getStage.setHeight(getStage.getHeight()+6);
+                            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+                            getStage.setX((primScreenBounds.getWidth() - getStage.getWidth()) / 2);
+                            getStage.setY((primScreenBounds.getHeight() - getStage.getHeight()) / 2);
                         } else {
                             this.cancel();
                             Platform.runLater(new Runnable() {
@@ -116,9 +120,6 @@ public class SigninController implements Initializable  {
                             //            getStage.setWidth(525);
                             //            getStage.setHeight(640);
                                         rootpane.getChildren().setAll(pane);
-                                        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-                                        getStage.setX((primScreenBounds.getWidth() - getStage.getWidth()) / 2);
-                                        getStage.setY((primScreenBounds.getHeight() - getStage.getHeight()) / 2);
                                     } catch (IOException ex) {
                                         Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
                                     }
