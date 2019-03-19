@@ -5,7 +5,7 @@
  */
 package chatapplicationfx.controller;
 
-import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.UsersMessages;
 import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.client_remote;
@@ -62,7 +62,8 @@ public class Chat_interfaceController implements Initializable {
     private Server_Interface server;
     private boolean is_btnusersActive = false;
     private boolean is_chatopen = false;
-    private ArrayList<Friends> friends;
+    private ArrayList<UsersMessages> usersmess;
+    ArrayList<UserDetails> users;
     private ArrayList<Messages> messages;
     private Stage getChatStage;
 
@@ -84,6 +85,8 @@ public class Chat_interfaceController implements Initializable {
     private JFXButton btnmessage;
     @FXML
     private JFXTextField txtsearch;
+    @FXML
+    private Label lblreceiver;
 
     public Chat_interfaceController(UserDetails user, Stage stage) throws RemoteException {
         super();
@@ -94,11 +97,12 @@ public class Chat_interfaceController implements Initializable {
     @FXML
     private void sendMessage(){
             Label label2 = getLabel(txtmessage.getText(), ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
+            label2.setPrefHeight(500);
             vboxmessage.getChildren().add(label2);
                 
         try {
             String fullname = user.fname + " " + user.mname.substring(0, 1) + ". " + user.lname;
-            server.sendMessage(txtmessage.getText(), user.userId, friends.get(lvchats.getSelectionModel().getSelectedIndex()).userId , fullname);
+            server.sendMessage(txtmessage.getText(), user.userId, is_btnusersActive ? users.get(lvchats.getSelectionModel().getSelectedIndex()).userId : usersmess.get(lvchats.getSelectionModel().getSelectedIndex()).userId  , fullname);
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,42 +119,54 @@ public class Chat_interfaceController implements Initializable {
         changeButton(0);
         lvchats.getItems().clear();
         txtsearch.setText("");
+        txtsearch.requestFocus();
+        stageTransition(295, 3, false);
+        is_chatopen = false;
     }
     
     @FXML
     private void viewMessages(){
         changeButton(1);
-        getFriends();
+        getusersmessages();
         txtsearch.setText("");
     }
     
     @FXML
     private void clicklvchats(){
-        if(is_btnusersActive){
-            JFXButton button = new JFXButton("Add Friend");
-            button.setStyle("-jfx-button-type: FLAT; -fx-background-color: #664797; -fx-text-fill: white;"
-                    + " -fx-background-radius: 0");
-            button.getStyleClass().add("popupbtn");
-            button.setCursor(Cursor.HAND);
-            JFXPopup popup = new JFXPopup(button);
-            button.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-                @Override
-                public void handle(javafx.scene.input.MouseEvent event) {
-                    popup.hide();
-                }
-            });
-            lvchats.getSelectionModel().getSelectedItem();
-            popup.show(lvchats.getSelectionModel().getSelectedItem(), PopupVPosition.TOP, PopupHPosition.RIGHT);
-        }
-        else{
+//        if(is_btnusersActive){
+//            JFXButton button = new JFXButton("Add Friend");
+//            button.setStyle("-jfx-button-type: FLAT; -fx-background-color: #664797; -fx-text-fill: white;"
+//                    + " -fx-background-radius: 0");
+//            button.getStyleClass().add("popupbtn");
+//            button.setCursor(Cursor.HAND);
+//            JFXPopup popup = new JFXPopup(button);
+//            button.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+//                @Override
+//                public void handle(javafx.scene.input.MouseEvent event) {
+//                    popup.hide();
+//                }
+//            });
+//            lvchats.getSelectionModel().getSelectedItem();
+//            popup.show(lvchats.getSelectionModel().getSelectedItem(), PopupVPosition.TOP, PopupHPosition.RIGHT);
+//        }
+//        else{
             lvchats.getSelectionModel().getSelectedItem().setStyle("-fx-text-fill: #f1d058;");
+            int index = lvchats.getSelectionModel().getSelectedIndex();
             if(!is_chatopen){
                 spinnerchat.setVisible(true);
                 is_chatopen = true;
-                chatTransition();
+                stageTransition(888, 3, true);
                 getMessages();
+                System.out.println(is_btnusersActive);
+                String fullname;
+                if(is_btnusersActive)
+                    fullname = users.get(index).fname + " " + users.get(index).mname.substring(0,1) + ". " + users.get(index).lname;
+                else
+                    fullname = usersmess.get(index).fname + " " + usersmess.get(index).mname.substring(0,1) + ". " + usersmess.get(index).lname;
+
+                lblreceiver.setText(fullname);
             }
-        }
+//        }
     }
     
     private void changeButton(int type){
@@ -170,13 +186,13 @@ public class Chat_interfaceController implements Initializable {
         }
     }
     
-    private void getFriends(){
+    private void getusersmessages(){
         try {
-            friends = server.getFriends(user.userId);
+            usersmess = server.getUsersMessages(user.userId);
             lvchats.getItems().clear();
             spinnerLeft.setVisible(false);
-            for(int i = 0; i < friends.size(); i++){
-                String fullname = friends.get(i).fname + " " + friends.get(i).mname.substring(0, 1) + ". " + friends.get(i).lname;
+            for(int i = 0; i < usersmess.size(); i++){
+                String fullname = usersmess.get(i).fname + " " + usersmess.get(i).mname.substring(0, 1) + ". " + usersmess.get(i).lname;
                 Label label = new Label(fullname);
                 label.setStyle("-fx-text-fill: white;");
                 label.setFont(new Font("Arial", 15));
@@ -199,13 +215,18 @@ public class Chat_interfaceController implements Initializable {
         }
     }
     
-    private void chatTransition(){
+    private void stageTransition(int width, int add, boolean plus){
         Timer animTimer = new Timer();
             animTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        if (getChatStage.getWidth()<= 888) {
-                            getChatStage.setWidth(getChatStage.getWidth()+3);
+                        boolean is_plus;
+                        if(plus)
+                            is_plus = getChatStage.getWidth()<= width;
+                        else
+                            is_plus = getChatStage.getWidth()>= width;
+                        if (is_plus) {
+                            getChatStage.setWidth(plus ? getChatStage.getWidth()+add : getChatStage.getWidth()-add);
                             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
                             getChatStage.setX((primScreenBounds.getWidth() - getChatStage.getWidth()) / 2);
 //                            getChatStage.setHeight(getChatStage.getHeight()+6);
@@ -220,7 +241,12 @@ public class Chat_interfaceController implements Initializable {
     private void getMessages(){
         vboxmessage.getChildren().clear();
         try {
-            messages = server.getMessages(user.userId, friends.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
+            if(is_btnusersActive)
+                messages = server.getMessages(user.userId, users.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
+            else
+                messages = server.getMessages(user.userId, usersmess.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
+            
+            
             if(messages.size() != 0){
                 for(int i =0; i < messages.size(); i++){
                     Label label = null;
@@ -238,11 +264,15 @@ public class Chat_interfaceController implements Initializable {
                 }
                 spinnerchat.setVisible(false);
             }
+            else{
+                spinnerchat.setVisible(false);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
+    
     
     private Label getLabel(String labelmess, ContentDisplay cdisplay, Pos pos){
         Label label = new Label(labelmess);
@@ -272,7 +302,7 @@ public class Chat_interfaceController implements Initializable {
             server = (Server_Interface) reg.lookup("Server");
             reg.rebind(user.userId+"", remote);
             
-            getFriends();
+            getusersmessages();
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
@@ -283,7 +313,7 @@ public class Chat_interfaceController implements Initializable {
             if(e.getCode() == KeyCode.ENTER){
                 try {
                     if(is_btnusersActive){
-                        ArrayList<UserDetails> users = server.findUser(txtsearch.getText());
+                        users = server.findUser(txtsearch.getText());
                         lvchats.getItems().clear();
                         for(int i = 0; i < users.size(); i++) {
                             String fullname = users.get(i).fname + " " + users.get(i).mname.substring(0,1) + ". " + users.get(i).lname;

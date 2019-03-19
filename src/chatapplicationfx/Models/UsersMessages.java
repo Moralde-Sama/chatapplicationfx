@@ -11,28 +11,27 @@ import java.io.Serializable;
  *
  * @author Moralde-Sama
  */
-public class Friends implements Serializable{
-    public int friendId;
+public class UsersMessages implements Serializable{
+    public int umId;
     public int userId;
     public String fname;
     public String mname;
     public String lname;
-    public String status;
 
+    public int getUmId() {
+        return umId;
+    }
+
+    public void setUmId(int umId) {
+        this.umId = umId;
+    }
+    
     public int getUserId() {
         return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getFriendId() {
-        return friendId;
-    }
-
-    public void setFriendId(int friendId) {
-        this.friendId = friendId;
     }
 
     public String getFname() {
@@ -57,13 +56,5 @@ public class Friends implements Serializable{
 
     public void setLname(String lname) {
         this.lname = lname;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

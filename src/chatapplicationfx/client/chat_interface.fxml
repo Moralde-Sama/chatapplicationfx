@@ -34,7 +34,12 @@
                </font>
             </JFXTextArea>
             <JFXSpinner fx:id="spinnerchat" layoutX="265.0" layoutY="214.0" />
-            <VBox fx:id="vboxmessage" layoutX="12.0" layoutY="52.0" prefHeight="382.0" prefWidth="546.0" />
+            <VBox fx:id="vboxmessage" layoutX="12.0" layoutY="52.0" prefHeight="382.0" prefWidth="531.0" />
+            <Label fx:id="lblreceiver" layoutX="62.0" layoutY="12.0" prefHeight="31.0" prefWidth="451.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
          </children>
          <effect>
             <DropShadow color="#322f2f" />
@@ -49,7 +54,7 @@
                   <String fx:value="list-cell" />
                   <String fx:value="jfx-rippler" />
                </styleClass></JFXListView>
-            <JFXButton fx:id="btnmessage" buttonType="RAISED" layoutX="12.0" layoutY="75.0" onMouseClicked="#viewMessages" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" styleClass="btnmessage-selected" stylesheets="@../css/chat_interface.css" text="Friends" textFill="WHITE">
+            <JFXButton fx:id="btnmessage" buttonType="RAISED" layoutX="12.0" layoutY="75.0" onMouseClicked="#viewMessages" prefHeight="37.0" prefWidth="135.0" ripplerFill="#e4e0e0" styleClass="btnmessage-selected" stylesheets="@../css/chat_interface.css" text="Messages" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

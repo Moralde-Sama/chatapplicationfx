@@ -16,18 +16,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`chatapp` /*!40100 DEFAULT CHARACTER SET
 
 USE `chatapp`;
 
-/*Table structure for table `tbl_friends` */
-
-DROP TABLE IF EXISTS `tbl_friends`;
-
-CREATE TABLE `tbl_friends` (
-  `friendId` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) DEFAULT NULL,
-  `ownerId` int(11) DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`friendId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
 /*Table structure for table `tbl_messages` */
 
 DROP TABLE IF EXISTS `tbl_messages`;
@@ -38,7 +26,18 @@ CREATE TABLE `tbl_messages` (
   `senderId` int(11) DEFAULT NULL,
   `message` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`messageId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+/*Table structure for table `tbl_usermessage` */
+
+DROP TABLE IF EXISTS `tbl_usermessage`;
+
+CREATE TABLE `tbl_usermessage` (
+  `umId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `senreceiver` int(11) DEFAULT NULL,
+  PRIMARY KEY (`umId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `tbl_users` */
 

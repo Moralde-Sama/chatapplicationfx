@@ -1,7 +1,7 @@
 package chatapplicationfx.server;
 
 
-import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.UsersMessages;
 import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.Client_Interface;
@@ -84,8 +84,8 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
     }
 
     @Override
-    public ArrayList<Friends> getFriends(int userId) throws RemoteException {
-        return db.getFriends(userId);
+    public ArrayList<UsersMessages> getUsersMessages(int userId) throws RemoteException {
+        return db.getUsersMessages(userId);
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package chatapplicationfx.server;
 
-import chatapplicationfx.Models.Friends;
+import chatapplicationfx.Models.UsersMessages;
 import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import java.sql.Connection;
@@ -85,16 +85,16 @@ public class Database {
         return list;
     }
     
-    public ArrayList<Friends> getFriends(int userId){
-        ArrayList<Friends> list = new ArrayList<>();
-        String query = "SELECT f.friendId, u.userId, u.fname, u.mname, u.lname FROM tbl_friends AS f \n" +
-                       "INNER JOIN tbl_users AS u ON u.userId = f.userId WHERE ownerId = " + userId;
+    public ArrayList<UsersMessages> getUsersMessages(int userId){
+        ArrayList<UsersMessages> list = new ArrayList<>();
+        String query = "SELECT f.umId, .u.userId, u.fname, u.mname, u.lname FROM tbl_usermessage AS f\n" +
+                       "INNER JOIN tbl_users AS u ON u.userId = f.senreceiver WHERE f.userId = " + userId;
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                Friends user = new Friends();
-                user.friendId = rs.getInt(1);
+                UsersMessages user = new UsersMessages();
+                user.umId = rs.getInt(1);
                 user.userId = rs.getInt(2);
                 user.fname = rs.getString(3);
                 user.mname = rs.getString(4);
@@ -114,6 +114,21 @@ public class Database {
         try {
             stmt = con.createStatement();
             stmt.executeUpdate(query);
+            
+            String query2 = "select count(userId) from tbl_usermessage where userId = " + senderId + " and senreceiver = " + receiverId; 
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query2);
+            rs.first();
+            if(rs.getInt(1) == 0){
+                rs.close();
+                
+                String query3 = "insert into tbl_usermessage(userId, senreceiver) values ("+ senderId+","
+                    + ""+ receiverId +")";
+                
+                stmt = con.createStatement();
+                stmt.executeUpdate(query3);
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,8 +136,8 @@ public class Database {
     public ArrayList<Messages> getMessages(int senderId, int receiverId){
         ArrayList<Messages> list = new ArrayList<>();
         String query = "SELECT m.senderId, m.message, CONCAT(u.fname, ' ', SUBSTRING(u.mname, 0, 1), '. ', u.lname) AS fullname FROM tbl_messages AS m \n" +
-                       "INNER JOIN tbl_users AS u ON u.userId = m.senderId WHERE m.senderId = "+senderId+" OR m.receiverId = "+receiverId+" "
-                     + "OR m.senderId= "+receiverId+" OR m.receiverId = "+senderId;
+                       "INNER JOIN tbl_users AS u ON u.userId = m.senderId WHERE m.senderId = "+senderId+" AND m.receiverId = "+receiverId+" "
+                     + "OR m.senderId= "+receiverId+" AND m.receiverId = "+senderId;
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
@@ -139,7 +154,6 @@ public class Database {
         }
         return list;
     }
-    
     
             
 }
