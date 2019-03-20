@@ -54,7 +54,7 @@
    <left>
       <AnchorPane prefHeight="521.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="115.0" onMouseClicked="#clicklvchats" prefHeight="406.0" prefWidth="298.0" style="-jfx-rippler-fill: none;" stylesheets="@../css/chat_interface.css">
+            <JFXListView fx:id="lvchats" depth="1" layoutX="-6.0" layoutY="115.0" onMouseClicked="#clicklvchats" prefHeight="353.0" prefWidth="298.0" style="-jfx-rippler-fill: none;" stylesheets="@../css/chat_interface.css">
                <styleClass>
                   <String fx:value="list-cell" />
                   <String fx:value="jfx-rippler" />
@@ -81,6 +81,16 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
+            <ImageView fitHeight="38.0" fitWidth="47.0" layoutX="16.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbluser" alignment="CENTER" layoutX="53.0" layoutY="481.0" prefHeight="31.0" prefWidth="236.0" text="Emmanuel Paul G. Moralde" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </left>

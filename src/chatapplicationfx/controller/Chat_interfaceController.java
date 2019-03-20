@@ -97,6 +97,8 @@ public class Chat_interfaceController implements Initializable {
     private JFXTextField txtsearch;
     @FXML
     private Label lblreceiver;
+    @FXML
+    private Label lbluser;
 
     public Chat_interfaceController(UserDetails user, Stage stage) throws RemoteException {
         super();
@@ -328,6 +330,7 @@ public class Chat_interfaceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         vboxmessage.setSpacing(20);
         lvchats.setCursor(Cursor.HAND);
+        lbluser.setText(user.fname + " " + user.mname.substring(0, 1) + ". " + user.lname);
         
         try {
             client_remote remote = new client_remote(vboxmessage);
