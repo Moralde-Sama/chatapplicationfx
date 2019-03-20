@@ -8,6 +8,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="300.0" prefWidth="3.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="589.0" prefWidth="879.0" styleClass="mainFxmlClass" stylesheets="@../css/signin.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane id="AnchorPane" prefHeight="527.0" prefWidth="566.0" styleClass="mainFxmlClass" stylesheets="@../css/chat_interface.css">
          <children>
@@ -34,7 +35,11 @@
                </font>
             </JFXTextArea>
             <JFXSpinner fx:id="spinnerchat" layoutX="265.0" layoutY="214.0" />
-            <VBox fx:id="vboxmessage" layoutX="12.0" layoutY="52.0" prefHeight="382.0" prefWidth="531.0" />
+            <ScrollPane fx:id="spchat" hbarPolicy="NEVER" layoutX="11.0" layoutY="43.0" prefHeight="390.0" prefWidth="537.0" stylesheets="@../css/chat_interface.css" AnchorPane.rightAnchor="10.0">
+               <content>
+                  <VBox fx:id="vboxmessage" maxHeight="387.0" prefHeight="387.0" prefWidth="521.0" />
+               </content>
+            </ScrollPane>
             <Label fx:id="lblreceiver" layoutX="62.0" layoutY="12.0" prefHeight="31.0" prefWidth="451.0" style="-fx-alignment: center;" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="21.0" />
@@ -80,14 +85,14 @@
       </AnchorPane>
    </left>
    <top>
-      <AnchorPane prefHeight="58.0" prefWidth="852.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="mactionbar" prefHeight="58.0" prefWidth="852.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="48.0" fitWidth="53.0" layoutX="25.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 350;">
                <image>
                   <Image url="@../images/MESSAGINGLOGO.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="btnexit" layoutX="807.0" layoutY="15.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE">
+            <JFXButton fx:id="btnexit" layoutX="807.0" layoutY="15.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="Bodoni Bd BT Bold" size="15.0" />
                </font>

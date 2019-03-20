@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -45,6 +46,14 @@
                </image>
             </ImageView>
             <StackPane fx:id="stockpane" layoutX="99.0" layoutY="196.0" prefHeight="133.0" prefWidth="328.0" style="-fx-background-color: transparent;" styleClass="stockpane" stylesheets="@../css/singup.css" visible="false" />
+            <JFXButton fx:id="btnexit" layoutX="462.0" layoutY="12.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni Bd BT Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
       </AnchorPane>
    </center>
@@ -65,6 +74,6 @@
       </AnchorPane>
    </bottom>
    <top>
-      <AnchorPane prefHeight="33.0" prefWidth="451.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="0.0" prefWidth="525.0" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>

@@ -26,7 +26,7 @@ CREATE TABLE `tbl_messages` (
   `senderId` int(11) DEFAULT NULL,
   `message` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`messageId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `tbl_usermessage` */
 
@@ -37,7 +37,7 @@ CREATE TABLE `tbl_usermessage` (
   `userId` int(11) DEFAULT NULL,
   `senreceiver` int(11) DEFAULT NULL,
   PRIMARY KEY (`umId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `tbl_users` */
 

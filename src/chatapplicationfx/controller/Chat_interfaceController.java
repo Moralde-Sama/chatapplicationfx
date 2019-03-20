@@ -47,6 +47,9 @@ import javafx.scene.text.Font;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -60,17 +63,24 @@ public class Chat_interfaceController implements Initializable {
     private Registry reg;
     private UserDetails user;
     private Server_Interface server;
+    private Stage getChatStage;
+    private int currentIndex = -1;
+    private double xOffset = 0.0;
+    private double yOffset = 0.0;;
     private boolean is_btnusersActive = false;
     private boolean is_chatopen = false;
     private ArrayList<UsersMessages> usersmess;
-    ArrayList<UserDetails> users;
+    private ArrayList<UserDetails> users;
     private ArrayList<Messages> messages;
-    private Stage getChatStage;
 
     @FXML
     private JFXListView<Label> lvchats;
     @FXML
     public VBox vboxmessage;
+    @FXML
+    private AnchorPane mactionbar;
+    @FXML
+    private ScrollPane spchat;
     @FXML
     private JFXTextArea txtmessage;
     @FXML
@@ -97,9 +107,8 @@ public class Chat_interfaceController implements Initializable {
     @FXML
     private void sendMessage(){
             Label label2 = getLabel(txtmessage.getText(), ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
-            label2.setPrefHeight(500);
+            label2.setPrefWidth(559);
             vboxmessage.getChildren().add(label2);
-                
         try {
             String fullname = user.fname + " " + user.mname.substring(0, 1) + ". " + user.lname;
             server.sendMessage(txtmessage.getText(), user.userId, is_btnusersActive ? users.get(lvchats.getSelectionModel().getSelectedIndex()).userId : usersmess.get(lvchats.getSelectionModel().getSelectedIndex()).userId  , fullname);
@@ -151,21 +160,30 @@ public class Chat_interfaceController implements Initializable {
 //        }
 //        else{
             lvchats.getSelectionModel().getSelectedItem().setStyle("-fx-text-fill: #f1d058;");
-            int index = lvchats.getSelectionModel().getSelectedIndex();
+            Label label;
+            if(currentIndex != -1){
+                System.out.println(currentIndex);
+                label = lvchats.getItems().get(currentIndex);
+                label.setStyle("-fx-text-fill: white;");
+            }
+                
+            currentIndex = lvchats.getSelectionModel().getSelectedIndex();
             if(!is_chatopen){
                 spinnerchat.setVisible(true);
                 is_chatopen = true;
                 stageTransition(888, 3, true);
-                getMessages();
-                System.out.println(is_btnusersActive);
-                String fullname;
-                if(is_btnusersActive)
-                    fullname = users.get(index).fname + " " + users.get(index).mname.substring(0,1) + ". " + users.get(index).lname;
-                else
-                    fullname = usersmess.get(index).fname + " " + usersmess.get(index).mname.substring(0,1) + ". " + usersmess.get(index).lname;
-
-                lblreceiver.setText(fullname);
             }
+            getMessages();
+            String fullname;
+            if(is_btnusersActive){
+                fullname = users.get(currentIndex).fname + " " + users.get(currentIndex).mname.substring(0,1)
+                        + ". " + users.get(currentIndex).lname;
+            }
+            else{
+                fullname = usersmess.get(currentIndex).fname + " " + usersmess.get(currentIndex).mname.substring(0,1) 
+                        + ". " + usersmess.get(currentIndex).lname;
+            }
+            lblreceiver.setText(fullname);
 //        }
     }
     
@@ -191,24 +209,39 @@ public class Chat_interfaceController implements Initializable {
             usersmess = server.getUsersMessages(user.userId);
             lvchats.getItems().clear();
             spinnerLeft.setVisible(false);
-            for(int i = 0; i < usersmess.size(); i++){
-                String fullname = usersmess.get(i).fname + " " + usersmess.get(i).mname.substring(0, 1) + ". " + usersmess.get(i).lname;
-                Label label = new Label(fullname);
-                label.setStyle("-fx-text-fill: white;");
-                label.setFont(new Font("Arial", 15));
-                label.setAlignment(Pos.CENTER_LEFT);
-                try {
-                    URL location = new File("src/chatapplicationfx/images/sdf.jpg").toURI().toURL();
-                    Image image = new Image(location.toString(), 40, 40, false, false);
-                    Circle clip = new Circle();
-                    clip.setRadius(100.0);
-                    ImageView img = new ImageView(image);
-                    img.setClip(clip);
-                    label.setGraphic(img);
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
+            int ursid[] = new int[usersmess.size()];
+            if(usersmess.size() != 0){
+                for(int i = 0; i < usersmess.size(); i++){
+                    int count = 0;
+                    UsersMessages ur = usersmess.get(i);
+                    for(int o = 0; o < usersmess.size(); o++){
+                        if(usersmess.get(o).userId == ur.userId){
+                            count++;
+                        }
+                        if(count == 2){
+                            usersmess.remove(usersmess.indexOf(ur));
+                        }
+                    }
                 }
-                lvchats.getItems().add(label);
+                for(UsersMessages getuser : usersmess){
+                    String fullname = getuser.fname + " " + getuser.mname.substring(0, 1) + ". " + getuser.lname;
+                    Label label = new Label(fullname);
+                    label.setStyle("-fx-text-fill: white;");
+                    label.setFont(new Font("Arial", 15));
+                    label.setAlignment(Pos.CENTER_LEFT);
+                    try {
+                        URL location = new File("src/chatapplicationfx/images/user.png").toURI().toURL();
+                        Image image = new Image(location.toString(), 40, 40, false, false);
+                        Circle clip = new Circle();
+                        clip.setRadius(100.0);
+                        ImageView img = new ImageView(image);
+                        img.setClip(clip);
+                        label.setGraphic(img);
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    lvchats.getItems().add(label);
+                }
             }
         } catch (RemoteException ex) {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
@@ -251,12 +284,12 @@ public class Chat_interfaceController implements Initializable {
                 for(int i =0; i < messages.size(); i++){
                     Label label = null;
                     if(messages.get(i).senderId == user.userId){
-                        label = getLabel(messages.get(0).message, ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
+                        label = getLabel(messages.get(i).message, ContentDisplay.RIGHT, Pos.CENTER_RIGHT);
                         label.setPrefWidth(559);
                         System.out.println("Right");
                     }
                     else{
-                        label = getLabel(messages.get(0).fullname + "\n" + messages.get(0).message, 
+                        label = getLabel(messages.get(i).fullname + "\n" + messages.get(i).message, 
                                 ContentDisplay.LEFT, Pos.CENTER_LEFT);
                         System.out.println("Left");
                     }
@@ -282,7 +315,7 @@ public class Chat_interfaceController implements Initializable {
         label.setContentDisplay(cdisplay);
         label.setAlignment(pos);
         try {
-                URL location = new File("src/chatapplicationfx/images/messenger.png").toURI().toURL();
+                URL location = new File("src/chatapplicationfx/images/user.png").toURI().toURL();
                 Image image = new Image(location.toString(), 40, 40, false, false);
                 label.setGraphic(new ImageView(image));
             } catch (MalformedURLException ex) {
@@ -309,6 +342,8 @@ public class Chat_interfaceController implements Initializable {
             Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        spchat.vvalueProperty().bind(vboxmessage.heightProperty());
+        
         txtsearch.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER){
                 try {
@@ -323,7 +358,7 @@ public class Chat_interfaceController implements Initializable {
                             label.setAlignment(Pos.CENTER_LEFT);
                             label.setCursor(Cursor.HAND);
                             try {
-                                URL location = new File("src/chatapplicationfx/images/messenger.png").toURI().toURL();
+                                URL location = new File("src/chatapplicationfx/images/user.png").toURI().toURL();
                                 Image image = new Image(location.toString(), 40, 40, false, false);
                                 label.setGraphic(new ImageView(image));
                             } catch (MalformedURLException ex) {
@@ -335,6 +370,21 @@ public class Chat_interfaceController implements Initializable {
                 } catch (RemoteException ex) {
                     Logger.getLogger(Chat_interfaceController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        });
+        
+        mactionbar.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getScreenX() - 300 ;
+                yOffset = event.getScreenY() - 50;
+            }
+        });
+        mactionbar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                getChatStage.setX(event.getScreenX() - xOffset);
+                getChatStage.setY(event.getScreenY() - yOffset);
             }
         });
     }

@@ -45,6 +45,14 @@
                   <Image url="@../images/MESSAGINGLOGO.png" />
                </image>
             </ImageView>
+            <JFXButton fx:id="btnexit" layoutX="389.0" layoutY="14.0" onMouseClicked="#closeApp" prefHeight="28.0" prefWidth="48.0" ripplerFill="#fffefd" style="-fx-background-color: red;" text="X" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni Bd BT Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
       </AnchorPane>
    </center>

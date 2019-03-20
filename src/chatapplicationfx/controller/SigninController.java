@@ -55,7 +55,15 @@ public class SigninController implements Initializable  {
     @FXML
     private JFXButton btnsignup;
     @FXML
+    private JFXButton btnexit;
+    @FXML
     private AnchorPane anchorsignin;
+    
+    @FXML
+    private void closeApp(){
+        System.exit(0);
+    }
+    
      @FXML
     private void signIn() {
         new Thread(() -> {

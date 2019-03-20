@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import javax.swing.JOptionPane;
 
 /**
@@ -87,19 +88,24 @@ public class Database {
     
     public ArrayList<UsersMessages> getUsersMessages(int userId){
         ArrayList<UsersMessages> list = new ArrayList<>();
-        String query = "SELECT f.umId, .u.userId, u.fname, u.mname, u.lname FROM tbl_usermessage AS f\n" +
-                       "INNER JOIN tbl_users AS u ON u.userId = f.senreceiver WHERE f.userId = " + userId;
+        String queries[] = {"SELECT f.umId, .u.userId, u.fname, u.mname, u.lname FROM tbl_usermessage AS f\n" +
+                            "INNER JOIN tbl_users AS u ON u.userId = f.senreceiver WHERE f.userId = " + userId,
+                            "SELECT f.umId, .u.userId, u.fname, u.mname, u.lname FROM tbl_usermessage AS f\n" +
+                            "INNER JOIN tbl_users AS u ON u.userId = f.userId WHERE f.senreceiver = " + userId};
         try {
             stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
-            while(rs.next()){
-                UsersMessages user = new UsersMessages();
-                user.umId = rs.getInt(1);
-                user.userId = rs.getInt(2);
-                user.fname = rs.getString(3);
-                user.mname = rs.getString(4);
-                user.lname = rs.getString(5);
-                list.add(user);
+            for(int i = 0; i < queries.length; i++){
+                rs = stmt.executeQuery(queries[i]);
+                while(rs.next()){
+                    UsersMessages user = new UsersMessages();
+                    user.umId = rs.getInt(1);
+                    user.userId = rs.getInt(2);
+                    user.fname = rs.getString(3);
+                    user.mname = rs.getString(4);
+                    user.lname = rs.getString(5);
+                    list.add(user);
+                }
+                rs.close();
             }
            return list;
         } catch (SQLException ex) {
@@ -135,7 +141,7 @@ public class Database {
     }
     public ArrayList<Messages> getMessages(int senderId, int receiverId){
         ArrayList<Messages> list = new ArrayList<>();
-        String query = "SELECT m.senderId, m.message, CONCAT(u.fname, ' ', SUBSTRING(u.mname, 0, 1), '. ', u.lname) AS fullname FROM tbl_messages AS m \n" +
+        String query = "SELECT m.senderId, m.message, CONCAT(u.fname, ' ', SUBSTRING(u.mname, 1, 1), '. ', u.lname) AS fullname FROM tbl_messages AS m \n" +
                        "INNER JOIN tbl_users AS u ON u.userId = m.senderId WHERE m.senderId = "+senderId+" AND m.receiverId = "+receiverId+" "
                      + "OR m.senderId= "+receiverId+" AND m.receiverId = "+senderId;
         try {

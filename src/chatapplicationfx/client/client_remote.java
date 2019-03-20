@@ -45,7 +45,7 @@ public class client_remote extends UnicastRemoteObject implements Client_Interfa
             label2.setFont(new Font("Arial", 15));
             label2.setContentDisplay(ContentDisplay.LEFT);
             try {
-                URL location = new File("src/chatapplicationfx/images/messenger.png").toURI().toURL();
+                URL location = new File("src/chatapplicationfx/images/user.png").toURI().toURL();
                 Image image = new Image(location.toString(), 40, 40, false, false);
                 label2.setGraphic(new ImageView(image));
             } catch (MalformedURLException ex) {

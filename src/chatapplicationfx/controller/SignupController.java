@@ -65,6 +65,8 @@ public class SignupController implements Initializable {
     @FXML
     private JFXButton btnsignup;
     @FXML
+    private JFXButton btnexit;
+    @FXML
     private StackPane stockpane;
 
     @FXML
@@ -123,6 +125,12 @@ public class SignupController implements Initializable {
             }
         });
         dialog.show();
+    }
+    
+    
+    @FXML
+    private void closeApp(){
+        System.exit(0);
     }
     
     @FXML
