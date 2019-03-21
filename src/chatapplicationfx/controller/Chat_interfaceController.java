@@ -5,12 +5,15 @@
  */
 package chatapplicationfx.controller;
 
+import chatapplicationfx.ChatApplicationFX;
 import chatapplicationfx.Models.UsersMessages;
 import chatapplicationfx.Models.Messages;
 import chatapplicationfx.Models.UserDetails;
 import chatapplicationfx.client.client_remote;
 import chatapplicationfx.server.Server_Interface;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXPopup.PopupHPosition;
@@ -19,6 +22,7 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.AccessException;
@@ -27,6 +31,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,12 +51,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -69,18 +82,20 @@ public class Chat_interfaceController implements Initializable {
     private double yOffset = 0.0;;
     private boolean is_btnusersActive = false;
     private boolean is_chatopen = false;
-    private ArrayList<UsersMessages> usersmess;
+    public ArrayList<UsersMessages> usersmess;
     private ArrayList<UserDetails> users;
     private ArrayList<Messages> messages;
 
     @FXML
-    private JFXListView<Label> lvchats;
+    public JFXListView<Label> lvchats;
     @FXML
     public VBox vboxmessage;
     @FXML
     private AnchorPane mactionbar;
     @FXML
     private ScrollPane spchat;
+    @FXML
+    private StackPane stockpane;
     @FXML
     private JFXTextArea txtmessage;
     @FXML
@@ -122,7 +137,64 @@ public class Chat_interfaceController implements Initializable {
     
     @FXML
     private void closeApp(){
-        System.exit(0);
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Text("Logout"));
+        layout.setBody(new Text("are you sure you want to logout?"));
+        JFXButton no = new JFXButton("No");
+        JFXButton yes = new JFXButton("Yes");
+        JFXButton ok = new JFXButton("Ok");
+        no.setStyle("-fx-text-fill: #24B8EF");
+        yes.setStyle("-fx-text-fill: #24B8EF");
+        ok.setStyle("-fx-text-fill: #24B8EF");
+        List<JFXButton> actions = new ArrayList<>();
+        actions.add(no);
+        actions.add(yes);
+        layout.setActions(actions);
+        stockpane.setVisible(true);
+        JFXDialog dialog = new JFXDialog(stockpane, layout, JFXDialog.DialogTransition.CENTER);
+        stockpane.setVisible(true);
+        no.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               dialog.close();
+               stockpane.setVisible(false);
+            }
+        });
+        yes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                layout.setBody(new Text("Logout Successfully!"));
+                layout.setActions(ok);
+            }
+        });
+        ok.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+                BorderPane root = new BorderPane();
+                Stage primaryStage = new Stage();
+                try {
+                    getChatStage.getScene().getWindow().hide();
+                    stockpane.setVisible(false);
+                    primaryStage.initStyle(StageStyle.TRANSPARENT);
+                    URL loc = new File("src/chatapplicationfx/images/MESSAGINGLOGO.png").toURI().toURL();
+                    primaryStage.getIcons().add(new Image(loc.toString()));
+                    URL location = new File("src/chatapplicationfx/client/signin.fxml").toURI().toURL();
+                    FXMLLoader loader = new FXMLLoader(location);
+                    root = loader.load();
+                } catch (IOException ex) {
+                    Logger.getLogger(ChatApplicationFX.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Scene scene = new Scene(root, 451, 532);
+                scene.setFill(Color.TRANSPARENT);
+
+                primaryStage.setTitle("Messaging");
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        dialog.show();
     }
     
     @FXML
@@ -140,27 +212,15 @@ public class Chat_interfaceController implements Initializable {
         changeButton(1);
         getusersmessages();
         txtsearch.setText("");
+        if(is_chatopen){
+            stageTransition(295, 3, false);
+            is_chatopen = false;
+            currentIndex = -1;
+        }
     }
     
     @FXML
     private void clicklvchats(){
-//        if(is_btnusersActive){
-//            JFXButton button = new JFXButton("Add Friend");
-//            button.setStyle("-jfx-button-type: FLAT; -fx-background-color: #664797; -fx-text-fill: white;"
-//                    + " -fx-background-radius: 0");
-//            button.getStyleClass().add("popupbtn");
-//            button.setCursor(Cursor.HAND);
-//            JFXPopup popup = new JFXPopup(button);
-//            button.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
-//                @Override
-//                public void handle(javafx.scene.input.MouseEvent event) {
-//                    popup.hide();
-//                }
-//            });
-//            lvchats.getSelectionModel().getSelectedItem();
-//            popup.show(lvchats.getSelectionModel().getSelectedItem(), PopupVPosition.TOP, PopupHPosition.RIGHT);
-//        }
-//        else{
             lvchats.getSelectionModel().getSelectedItem().setStyle("-fx-text-fill: #f1d058;");
             Label label;
             if(currentIndex != -1){
@@ -186,7 +246,6 @@ public class Chat_interfaceController implements Initializable {
                         + ". " + usersmess.get(currentIndex).lname;
             }
             lblreceiver.setText(fullname);
-//        }
     }
     
     private void changeButton(int type){
@@ -264,7 +323,6 @@ public class Chat_interfaceController implements Initializable {
                             getChatStage.setWidth(plus ? getChatStage.getWidth()+add : getChatStage.getWidth()-add);
                             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
                             getChatStage.setX((primScreenBounds.getWidth() - getChatStage.getWidth()) / 2);
-//                            getChatStage.setHeight(getChatStage.getHeight()+6);
                         } else {
                             this.cancel();
                         }
@@ -276,11 +334,13 @@ public class Chat_interfaceController implements Initializable {
     private void getMessages(){
         vboxmessage.getChildren().clear();
         try {
-            if(is_btnusersActive)
+            if(is_btnusersActive){
                 messages = server.getMessages(user.userId, users.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
-            else
+            }
+            else{
+                usersmess = server.getUsersMessages(user.userId);
                 messages = server.getMessages(user.userId, usersmess.get(lvchats.getSelectionModel().getSelectedIndex()).userId);
-            
+            }
             
             if(messages.size() != 0){
                 for(int i =0; i < messages.size(); i++){
@@ -333,10 +393,10 @@ public class Chat_interfaceController implements Initializable {
         lbluser.setText(user.fname + " " + user.mname.substring(0, 1) + ". " + user.lname);
         
         try {
-            client_remote remote = new client_remote(vboxmessage);
+            client_remote remote = new client_remote(vboxmessage, lvchats);
             reg = LocateRegistry.getRegistry(6666);
-            server = (Server_Interface) reg.lookup("Server");
             reg.rebind(user.userId+"", remote);
+            server = (Server_Interface) reg.lookup("Server");
             
             getusersmessages();
         } catch (RemoteException ex) {

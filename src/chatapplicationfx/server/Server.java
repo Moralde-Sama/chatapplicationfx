@@ -38,13 +38,6 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
         try {
             reg = LocateRegistry.createRegistry(6666);
             reg.rebind("Server", new Server());
-            
-            UserDetails ud = new UserDetails();
-            ud.userId = 1;
-            ud.username = "admin";
-            ud.password = "admin";
-            userlist.add(ud);
-            
             System.out.println("Server is ready");
         } catch (RemoteException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,7 +66,7 @@ public class Server extends UnicastRemoteObject implements Server_Interface{
         try {
             db.saveMessage(senderId, receiverId, message);
             Client_Interface client = (Client_Interface) reg.lookup("" + receiverId);
-            client.receiveMessage(message, fullname);
+            client.receiveMessage(message, fullname, senderId);
             return true;
         } catch (NotBoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

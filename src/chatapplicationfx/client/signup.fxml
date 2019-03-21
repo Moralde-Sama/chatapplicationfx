@@ -15,6 +15,16 @@
    <center>
       <AnchorPane id="AnchorPane" accessibleRole="IMAGE_VIEW" minHeight="465.0" minWidth="525.0" prefHeight="465.0" prefWidth="525.0" stylesheets="@../css/signin.css">
          <children>
+            <JFXTextField fx:id="txtusername" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Username" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="txtpassword" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Password" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXPasswordField>
             <JFXTextField fx:id="txtfname" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="315.0" prefHeight="38.0" prefWidth="222.0" promptText="First Name" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
                <font>
                   <Font size="17.0" />
@@ -30,16 +40,6 @@
                   <Font size="17.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtusername" focusColor="#664797" labelFloat="true" layoutX="27.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Username" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </JFXTextField>
-            <JFXPasswordField fx:id="txtpassword" focusColor="#664797" labelFloat="true" layoutX="277.0" layoutY="242.0" prefHeight="38.0" prefWidth="222.0" promptText="Password" styleClass="textbox" stylesheets="@../css/signin.css" unFocusColor="#f1d058">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </JFXPasswordField>
             <ImageView fitHeight="195.0" fitWidth="208.0" layoutX="176.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/MESSAGINGLOGO.png" />

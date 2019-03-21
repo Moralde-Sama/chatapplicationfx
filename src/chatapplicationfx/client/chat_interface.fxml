@@ -14,6 +14,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -35,7 +36,7 @@
                </font>
             </JFXTextArea>
             <JFXSpinner fx:id="spinnerchat" layoutX="265.0" layoutY="214.0" />
-            <ScrollPane fx:id="spchat" hbarPolicy="NEVER" layoutX="11.0" layoutY="43.0" prefHeight="390.0" prefWidth="537.0" stylesheets="@../css/chat_interface.css" AnchorPane.rightAnchor="10.0">
+            <ScrollPane fx:id="spchat" hbarPolicy="NEVER" layoutX="11.0" layoutY="43.0" prefHeight="390.0" prefWidth="537.0" stylesheets="@../css/chat_interface.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <content>
                   <VBox fx:id="vboxmessage" maxHeight="387.0" prefHeight="387.0" prefWidth="521.0" />
                </content>
@@ -45,6 +46,7 @@
                   <Font name="System Bold" size="21.0" />
                </font>
             </Label>
+            <StackPane fx:id="stockpane" layoutY="93.0" prefHeight="133.0" prefWidth="328.0" style="-fx-background-color: transparent;" styleClass="stockpane" stylesheets="@../css/singup.css" visible="false" />
          </children>
          <effect>
             <DropShadow color="#322f2f" />
